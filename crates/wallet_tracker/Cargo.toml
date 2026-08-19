@@ -1,0 +1,21 @@
+[package]
+name = "wallet_tracker"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+domain = { workspace = true }
+market_data = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust_decimal = { workspace = true }
+chrono = { workspace = true }
+sha2 = { workspace = true }
+hex = { workspace = true }
+tracing = { workspace = true }
+parking_lot = { workspace = true }
+
+[dev-dependencies]
+rust_decimal_macros = { workspace = true }
+proptest = { workspace = true }
+tokio = { workspace = true }

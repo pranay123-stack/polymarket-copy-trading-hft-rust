@@ -1,0 +1,33 @@
+[package]
+name = "api"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+domain = { workspace = true }
+config = { workspace = true }
+risk = { workspace = true }
+execution = { workspace = true }
+portfolio = { workspace = true }
+persistence = { workspace = true }
+metrics = { workspace = true }
+wallet_tracker = { workspace = true }
+strategy = { workspace = true }
+market_data = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust_decimal = { workspace = true }
+rust_decimal_macros = { workspace = true }
+chrono = { workspace = true }
+tokio = { workspace = true }
+axum = { workspace = true }
+tower = { workspace = true }
+tower-http = { workspace = true }
+futures-util = { workspace = true }
+tracing = { workspace = true }
+uuid = { workspace = true }
+parking_lot = { workspace = true }
+anyhow = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros"] }

@@ -1,0 +1,31 @@
+# Secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+private_key*
+secrets/
+
+# Rust
+/target/
+**/*.rs.bk
+Cargo.lock.orig
+
+# Node
+node_modules/
+dashboard/dist/
+dashboard/.vite/
+*.log
+
+# Data
+*.db
+*.sqlite
+pgdata/
+redisdata/
+
+# Editors / OS
+.idea/
+.vscode/
+.DS_Store
+*.swp

@@ -1,0 +1,47 @@
+[package]
+name = "app"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "copytrader"
+path = "src/main.rs"
+
+[dependencies]
+domain = { workspace = true }
+config = { workspace = true }
+market_data = { workspace = true }
+wallet_tracker = { workspace = true }
+strategy = { workspace = true }
+risk = { workspace = true }
+execution = { workspace = true }
+simulator = { workspace = true }
+portfolio = { workspace = true }
+persistence = { workspace = true }
+api = { workspace = true }
+metrics = { workspace = true }
+serde = { workspace = true }
+serde_json = { workspace = true }
+rust_decimal = { workspace = true }
+rust_decimal_macros = { workspace = true }
+chrono = { workspace = true }
+tokio = { workspace = true }
+tracing = { workspace = true }
+tracing-subscriber = { workspace = true }
+anyhow = { workspace = true }
+clap = { workspace = true }
+uuid = { workspace = true }
+parking_lot = { workspace = true }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
+futures-util = { workspace = true }
+axum = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros"] }
+criterion = { workspace = true }
+
+[[bench]]
+name = "pipeline"
+harness = false

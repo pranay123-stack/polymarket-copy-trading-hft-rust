@@ -1,0 +1,68 @@
+name: polymarket-copytrader
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: copytrader
+      POSTGRES_PASSWORD: copytrader
+      POSTGRES_DB: copytrader
+    ports: ["5432:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck:
+      # The backend waits for this, so migrations never race an unready database.
+      test: ["CMD-SHELL", "pg_isready -U copytrader -d copytrader"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports: ["6379:6379"]
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes: ["redisdata:/data"]
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      postgres: { condition: service_healthy }
+      redis: { condition: service_healthy }
+    environment:
+      # Paper + demo by default: `docker compose up` must be safe and produce a
+      # populated dashboard with no credentials whatsoever.
+      APP_MODE: ${APP_MODE:-paper}
+      LIVE_TRADING_ENABLED: ${LIVE_TRADING_ENABLED:-false}
+      DEMO_DATA: ${DEMO_DATA:-true}
+      DATABASE_URL: postgres://copytrader:copytrader@postgres:5432/copytrader
+      REDIS_URL: redis://redis:6379
+      SERVER_BIND_ADDR: 0.0.0.0
+      SERVER_PORT: 8080
+      TARGET_WALLETS: ${TARGET_WALLETS:-}
+      API_AUTH_TOKEN: ${API_AUTH_TOKEN:-}
+      RUST_LOG: ${RUST_LOG:-info,sqlx=warn}
+    ports: ["8080:8080"]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "/usr/local/bin/copytrader", "--check"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    depends_on: [backend]
+    ports: ["5173:80"]
+    restart: unless-stopped
+
+volumes:
+  pgdata:
+  redisdata:

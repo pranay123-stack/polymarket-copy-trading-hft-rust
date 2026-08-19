@@ -1,0 +1,16 @@
+[package]
+name = "portfolio"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+domain = { workspace = true }
+serde = { workspace = true }
+rust_decimal = { workspace = true }
+rust_decimal_macros = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+parking_lot = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
