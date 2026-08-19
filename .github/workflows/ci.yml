@@ -8,7 +8,6 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
-  RUSTFLAGS: "-D warnings"
 
 jobs:
   backend:
@@ -17,8 +16,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: dtolnay/rust-toolchain@stable
+      # Two toolchains on purpose.
+      #
+      # `-D warnings` on a floating `stable` is a well-known CI trap: a new clippy release
+      # adds lints and the build fails on code nobody touched. The lint gate is therefore
+      # pinned to a known toolchain, so its verdict is reproducible and reviewable.
+      # Build and test still run on floating stable, so genuine compiler regressions are
+      # caught — they just cannot be caused by a new style lint.
+      - uses: dtolnay/rust-toolchain@master
         with:
+          toolchain: 1.91.1
           components: rustfmt, clippy
 
       - uses: Swatinem/rust-cache@v2
@@ -27,8 +34,14 @@ jobs:
         run: cargo fmt --all -- --check
         continue-on-error: true
 
-      - name: Clippy
+      - name: Clippy (pinned toolchain, warnings are errors)
+        run: cargo clippy --workspace --all-targets -- -D warnings
+
+      - uses: dtolnay/rust-toolchain@stable
+
+      - name: Clippy on latest stable (advisory only)
         run: cargo clippy --workspace --all-targets
+        continue-on-error: true
 
       - name: Build
         run: cargo build --workspace

@@ -46,7 +46,7 @@ async fn main() {
     }
 
     let mut top: Vec<_> = counts.into_iter().collect();
-    top.sort_by(|a, b| b.1.cmp(&a.1));
+    top.sort_by_key(|(_, count)| std::cmp::Reverse(*count));
     if top.is_empty() { println!("no trades observed; aborting"); return; }
     println!("   busiest wallets: {:?}",
         top.iter().take(3).map(|(a,c)| (a.to_string(), *c)).collect::<Vec<_>>());
