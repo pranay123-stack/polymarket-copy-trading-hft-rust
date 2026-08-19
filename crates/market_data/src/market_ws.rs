@@ -206,8 +206,8 @@ fn to_book(b: &WireBook, seq: u64, fallback: DateTime<Utc>) -> Option<OrderBook>
     let mut bids = levels(&b.bids);
     let mut asks = levels(&b.asks);
     // Same worst-first trap as the REST endpoint; normalise explicitly.
-    bids.sort_by(|x, y| y.price.cmp(&x.price));
-    asks.sort_by(|x, y| x.price.cmp(&y.price));
+    bids.sort_by_key(|l| std::cmp::Reverse(l.price));
+    asks.sort_by_key(|l| l.price);
     Some(OrderBook {
         market_id: MarketId::new(&b.market).ok()?,
         token_id: TokenId::new(&b.asset_id).ok()?,
@@ -281,8 +281,8 @@ impl BookBuilder {
                     }
                 }
                 match side {
-                    domain::Side::Buy => levels.sort_by(|x, y| y.price.cmp(&x.price)),
-                    domain::Side::Sell => levels.sort_by(|x, y| x.price.cmp(&y.price)),
+                    domain::Side::Buy => levels.sort_by_key(|l| std::cmp::Reverse(l.price)),
+                    domain::Side::Sell => levels.sort_by_key(|l| l.price),
                 }
                 b.timestamp = at;
                 b.seq += 1;
