@@ -63,7 +63,7 @@ impl Portfolio {
 
     pub fn positions(&self) -> Vec<Position> {
         let mut v: Vec<_> = self.positions.read().values().cloned().collect();
-        v.sort_by(|a, b| b.exposure().cmp(&a.exposure()));
+        v.sort_by_key(|p| std::cmp::Reverse(p.exposure()));
         v
     }
 

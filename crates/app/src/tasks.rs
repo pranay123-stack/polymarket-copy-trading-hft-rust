@@ -234,7 +234,7 @@ pub async fn run_market_data(
             // Seed the stream too, so the most liquid books are warm before any target
             // trades and the very first copy is not paying a REST round trip.
             if let Some(s) = &subs {
-                s.extend(tokens.iter().cloned().take(market_data::MAX_SUBSCRIBED_TOKENS / 2));
+                s.extend(tokens.iter().take(market_data::MAX_SUBSCRIBED_TOKENS / 2).cloned());
                 info!(followed = s.len(), "seeded streaming book subscriptions");
             }
             info!(markets = ms.len(), tokens = tokens.len(), "seeded market data");

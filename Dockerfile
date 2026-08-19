@@ -1,11 +1,13 @@
 # ---- build ----
-FROM rust:1.82-slim-bookworm AS builder
+FROM rust:1.90-slim-bookworm AS builder
 WORKDIR /build
 RUN apt-get update && apt-get install -y --no-install-recommends \
         pkg-config libssl-dev ca-certificates && rm -rf /var/lib/apt/lists/*
 
-# Cache dependency compilation separately from source changes.
-COPY Cargo.toml ./
+# Cargo.lock is copied deliberately: without it cargo re-resolves inside the image and can
+# pull newer dependencies than the ones this project was tested against. A release build
+# must be reproducible.
+COPY Cargo.toml Cargo.lock ./
 COPY crates ./crates
 RUN cargo build --release --bin copytrader && strip target/release/copytrader
 
