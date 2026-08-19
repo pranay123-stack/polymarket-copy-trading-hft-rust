@@ -7,7 +7,7 @@
 Watches selected wallets, detects their trades in real time, sizes and risk-checks a mirrored
 order, and executes it through **a paper simulator or the live CLOB behind one identical interface**.
 
-[![Rust](https://img.shields.io/badge/rust-1.82%2B-000000?logo=rust&logoColor=white)](https://www.rust-lang.org)
+[![Rust](https://img.shields.io/badge/rust-1.85%2B-000000?logo=rust&logoColor=white)](https://www.rust-lang.org)
 [![Tests](https://img.shields.io/badge/tests-341%20passing-2ea44f)](#testing)
 [![Warnings](https://img.shields.io/badge/warnings-0-2ea44f)](#testing)
 [![Unsafe](https://img.shields.io/badge/unsafe-none-2ea44f)](#engineering-standards)
@@ -199,7 +199,7 @@ Full walkthrough → [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md)
 
 | | Version | Needed for |
 |---|---|---|
-| Rust | 1.82+ | backend |
+| Rust | 1.85+ | backend |
 | Node | 20+ | dashboard |
 | Docker | any recent | Postgres + Redis (optional) |
 | PostgreSQL | 16 | persistence (optional — degrades gracefully) |

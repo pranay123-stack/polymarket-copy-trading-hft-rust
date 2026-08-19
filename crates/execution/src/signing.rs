@@ -493,7 +493,9 @@ mod tests {
         let ds = domain_separator(EXCHANGE_ADDRESS, CHAIN_ID).unwrap();
         let good = recover(&Fixture::order().digest(&ds).unwrap(), &Fixture::signature()).unwrap();
 
-        let mutate: Vec<(&str, Box<dyn Fn(&mut PolymarketOrder)>)> = vec![
+        /// A named mutation applied to a copy of the fixture order.
+        type Mutation = (&'static str, Box<dyn Fn(&mut PolymarketOrder)>);
+        let mutate: Vec<Mutation> = vec![
             ("salt", Box::new(|o: &mut PolymarketOrder| o.salt += 1)),
             ("maker", Box::new(|o: &mut PolymarketOrder| o.maker = format!("0x{:040x}", 1))),
             ("tokenId", Box::new(|o: &mut PolymarketOrder| o.token_id = "12345".into())),

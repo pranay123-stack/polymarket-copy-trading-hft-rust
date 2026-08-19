@@ -299,9 +299,11 @@ impl AppConfig {
     }
 
     fn from_env_inner() -> Result<Self, ConfigError> {
-        let mut cfg = AppConfig::default();
-
-        cfg.mode = match env_opt("APP_MODE").unwrap_or_else(|| "paper".into()).to_ascii_lowercase().as_str() {
+        let mode = match env_opt("APP_MODE")
+            .unwrap_or_else(|| "paper".into())
+            .to_ascii_lowercase()
+            .as_str()
+        {
             "paper" => AppMode::Paper,
             "live" => AppMode::Live,
             "replay" => AppMode::Replay,
@@ -312,6 +314,7 @@ impl AppConfig {
                 })
             }
         };
+        let mut cfg = AppConfig { mode, ..Default::default() };
 
         let e = &mut cfg.endpoints;
         if let Some(v) = env_opt("POLYMARKET_GAMMA_URL") { e.gamma_url = v; }

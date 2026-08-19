@@ -149,9 +149,11 @@ impl PaperExecution {
                 let mut rng = self.rng.lock();
                 MatchingEngine::match_order(&probe, book, &self.params, &mut *rng)
             };
-            if let SimOutcome::Filled { quantity, price, fee, is_maker } = outcome {
-                // A resting order that gets hit is providing liquidity: it is a maker.
-                let f = self.record_fill(&r.request, quantity, price, fee, is_maker || true);
+            if let SimOutcome::Filled { quantity, price, fee, .. } = outcome {
+                // A resting order that gets hit was providing liquidity, so it is always a
+                // maker regardless of what the matcher reported for the taker path.
+                const RESTING_IS_MAKER: bool = true;
+                let f = self.record_fill(&r.request, quantity, price, fee, RESTING_IS_MAKER);
                 let left = r.remaining.saturating_sub(quantity);
                 if left.is_zero() {
                     self.resting.write().remove(&id);

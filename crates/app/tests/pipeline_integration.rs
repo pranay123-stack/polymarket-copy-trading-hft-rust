@@ -240,6 +240,9 @@ impl Harness {
     }
 }
 
+/// The payloads here are read through `Debug` in assertion failure messages — which is
+/// exactly when they matter — so clippy's dead-code analysis does not see the use.
+#[allow(dead_code)]
 #[derive(Debug)]
 enum Outcome {
     NotTracked,
