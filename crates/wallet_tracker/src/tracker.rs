@@ -72,7 +72,7 @@ impl WalletTracker {
 
     pub fn list_wallets(&self) -> Vec<TargetWallet> {
         let mut v: Vec<_> = self.wallets.read().values().cloned().collect();
-        v.sort_by(|a, b| a.nickname.cmp(&b.nickname));
+        v.sort_by(|a, b| a.nickname.cmp(&b.nickname)); // borrowed key: sort_by_key would not compile
         v
     }
 

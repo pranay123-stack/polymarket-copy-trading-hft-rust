@@ -304,8 +304,8 @@ pub fn parse_book_value(
     let mut bids = levels(&b.bids);
     let mut asks = levels(&b.asks);
     // Best-first: bids descending, asks ascending.
-    bids.sort_by(|x, y| y.price.cmp(&x.price));
-    asks.sort_by(|x, y| x.price.cmp(&y.price));
+    bids.sort_by_key(|l| std::cmp::Reverse(l.price));
+    asks.sort_by_key(|l| l.price);
 
     let timestamp = b
         .timestamp
