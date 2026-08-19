@@ -1,0 +1,19 @@
+[package]
+name = "simulator"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+domain = { workspace = true }
+config = { workspace = true }
+serde = { workspace = true }
+rust_decimal = { workspace = true }
+rust_decimal_macros = { workspace = true }
+chrono = { workspace = true }
+tracing = { workspace = true }
+rand = { workspace = true }
+rand_chacha = { workspace = true }
+parking_lot = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

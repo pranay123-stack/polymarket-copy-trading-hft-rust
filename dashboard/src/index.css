@@ -1,0 +1,30 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html, body, #root { height: 100%; }
+  body {
+    @apply bg-term-bg text-term-text font-mono text-sm antialiased;
+    font-variant-numeric: tabular-nums;
+  }
+  ::-webkit-scrollbar { width: 8px; height: 8px; }
+  ::-webkit-scrollbar-track { @apply bg-term-bg; }
+  ::-webkit-scrollbar-thumb { @apply bg-term-border rounded; }
+  ::-webkit-scrollbar-thumb:hover { @apply bg-term-dim; }
+}
+
+@layer components {
+  .panel { @apply bg-term-panel border border-term-border rounded; }
+  .panel-title {
+    @apply px-3 py-2 text-2xs uppercase tracking-[0.12em] text-term-muted
+           border-b border-term-border flex items-center justify-between;
+  }
+  .cell { @apply px-3 py-1.5 whitespace-nowrap; }
+  .th {
+    @apply px-3 py-1.5 text-2xs uppercase tracking-wider text-term-dim
+           font-normal text-left sticky top-0 bg-term-panel z-10;
+  }
+  .row { @apply border-t border-term-border/60 hover:bg-term-hover transition-colors; }
+  .tag { @apply px-1.5 py-0.5 rounded text-2xs font-medium; }
+}
